@@ -3,8 +3,8 @@
 //import app.cash.sqldelight.db.use
 //import app.softwork.sqldelight.postgresdriver.PostgresNativeDriver
 //import arrow.fx.coroutines.resourceScope
-//import com.fortysevendegrees.env.Env
-//import com.fortysevendegrees.env.postgres
+//import Env
+//import postgres
 //import io.kotest.assertions.assertSoftly
 //import io.kotest.core.spec.style.StringSpec
 //import io.kotest.matchers.shouldBe

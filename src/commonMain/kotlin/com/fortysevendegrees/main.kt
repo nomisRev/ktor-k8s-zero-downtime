@@ -17,10 +17,8 @@ import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
-import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.awaitCancellation
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 fun main() = SuspendApp {
