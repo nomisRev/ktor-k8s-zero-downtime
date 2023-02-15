@@ -11,6 +11,7 @@ version = "0.1"
 
 repositories {
   mavenCentral()
+  mavenLocal()
 }
 
 val buildDockerImage by tasks.registering(Exec::class) {
