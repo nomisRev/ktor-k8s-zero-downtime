@@ -1,9 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
-  alias(libs.plugins.kotest.multiplatform)
   id(libs.plugins.kotlin.multiplatform.get().pluginId)
-  alias(libs.plugins.kover)
   alias(libs.plugins.kotlinx.serialization)
-  alias(libs.plugins.sqldelight)
 }
 
 group = "com.fortysevendegrees"
@@ -31,13 +28,6 @@ kotlin {
         implementation(libs.arrow.fx)
         implementation(libs.suspendapp)
         implementation(libs.bundles.ktor.server)
-      }
-    }
-
-    val commonTest by getting {
-      dependencies {
-        implementation(libs.bundles.kotest)
-        implementation(libs.ktor.server.tests)
       }
     }
   }

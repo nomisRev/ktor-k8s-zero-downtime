@@ -1,0 +1,31 @@
+{
+  "projectStructure": {
+    "formatVersion": "0.3.3",
+    "isPublishedAsRoot": "true",
+    "variants": [
+      {
+        "name": "linuxX64ApiElements",
+        "sourceSet": [
+          "commonMain"
+        ]
+      }
+    ],
+    "sourceSets": [
+      {
+        "name": "commonMain",
+        "dependsOn": [],
+        "moduleDependency": [
+          "org.jetbrains.kotlin:kotlin-stdlib-common",
+          "io.arrow-kt:arrow-fx-coroutines",
+          "io.arrow-kt:suspendapp",
+          "io.ktor:ktor-server-core",
+          "io.ktor:ktor-server-content-negotiation",
+          "io.ktor:ktor-server-cio",
+          "io.ktor:ktor-serialization-kotlinx-json"
+        ],
+        "sourceSetCInteropMetadataDirectory": "commonMain-cinterop",
+        "binaryLayout": "klib"
+      }
+    ]
+  }
+}
