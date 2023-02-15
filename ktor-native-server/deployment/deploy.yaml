@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: ktornative
-        image:  ktor-native-server:0.2
+        image:  ktor-native-server:0.1
         readinessProbe:
           initialDelaySeconds: 1
           periodSeconds: 3
