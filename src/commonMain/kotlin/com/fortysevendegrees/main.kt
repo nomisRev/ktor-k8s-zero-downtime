@@ -25,7 +25,7 @@ fun main() = SuspendApp {
   either {
     resourceScope {
       val env = env()
-      val database = postgres(env.postgres)
+      val database = postgres(env.postgres).bind()
       server(CIO, port = env.http.port, host = env.http.host, preWait = 5.seconds) {
         setup()
         routing {
@@ -36,7 +36,12 @@ fun main() = SuspendApp {
       }
       awaitCancellation()
     }
-  }.onLeft { println(it.message) }
+  }.onLeft { error ->
+    when (error) {
+      is ServerError.ConfigurationError -> println(error.message)
+      is ServerError.PostgresError -> error.state.printStackTrace()
+    }
+  }
 }
 
 fun Application.setup() {

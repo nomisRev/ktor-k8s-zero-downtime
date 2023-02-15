@@ -21,7 +21,22 @@ spec:
     spec:
       containers:
       - name: ktornative
-        image: vergauwensimon/ktor-native-server:20230215
+        image: vergauwensimon/ktor-native-server:20230215-220035
+        env:
+          - name: HOST
+            value: "0.0.0.0"
+          - name: SERVER_PORT
+            value: "8080"
+          - name: POSTGRES_HOST
+            value: "10.109.184.32"
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: POSTGRES_USERNAME
+            value: "postgres"
+          - name: POSTGRES_PASSWORD
+            value: "postgres"
+          - name: POSTGRES_DB_NAME
+            value: "ktor-arrow-example-database"
         readinessProbe:
           initialDelaySeconds: 1
           periodSeconds: 3
