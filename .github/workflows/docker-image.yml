@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GRADLE_OPTS: "-Xmx3g -XX:MaxMetaspaceSize=512m"
 
     steps:
     - name: Setup Homebrew
@@ -28,7 +30,9 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     
     - name: Build Ktor Native
-      run: ./gradlew linkReleaseExecutableLinuxX64
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: linkReleaseExecutableLinuxX64
               
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag vergauwensimon/ktor-native-server:$(date +%s)
