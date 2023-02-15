@@ -52,7 +52,7 @@ fun main() = SuspendApp {
       server(
         CIO,
         port = 8080,
-        host = "localhost",
+        host = "0.0.0.0",
         preWait = 0.seconds
       ) {
 //        install(CORS) {
@@ -71,10 +71,8 @@ fun main() = SuspendApp {
 //        }
 //        install(CallLogging)
         routing {
-          println("SETTING UP PING")
           ping()
-          println("SETUP PING")
-//          get("/readiness") { call.respondText("OK") }
+          get("/readiness") { call.respondText("OK") }
 //          get("/test1") { call.respond(Payload()) }
         }
       }

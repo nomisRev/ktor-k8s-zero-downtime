@@ -7,7 +7,7 @@
 }
 
 group = "com.fortysevendegrees"
-version = "0.1"
+version = "0.2"
 
 repositories {
   mavenCentral()
@@ -15,7 +15,7 @@ repositories {
 
 val buildDockerImage by tasks.registering(Exec::class) {
   dependsOn(tasks.findByName("linkReleaseExecutableLinuxX64"))
-  commandLine("docker", "build", "--platform", "linux/amd64", "-t", "ktor-native-server:$version", ".")
+  commandLine("docker", "build", "--platform=linux/amd64", "-t", "ktor-native-server:$version", ".")
 }
 
 sqldelight {
@@ -34,12 +34,6 @@ kotlin {
       executable { entryPoint = "com.fortysevendegrees.main" }
     }
   }
-
-//  macosArm64 {
-//    binaries {
-//      executable { entryPoint = "com.fortysevendegrees.main" }
-//    }
-//  }
 
   sourceSets {
     val commonMain by getting {

@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM --platform=linux/amd64 ubuntu
 COPY build/bin/linuxX64/releaseExecutable/ktor-native-server.kexe /ktor-native-server
 EXPOSE 8080
-CMD ["/ktor-native-server"]
+ENTRYPOINT ["/ktor-native-server"]
