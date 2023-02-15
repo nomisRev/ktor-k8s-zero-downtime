@@ -104,3 +104,9 @@ To deploy your deployments the command is the follow:
 ```shell
 kubectl deploy -f <name-of-your-file>
 ```
+
+To pull the docker image on M1 you first need to run:
+
+```shell
+docker pull --platform=linux/amd64 vergauwensimon/ktor-native-server:tag
+```

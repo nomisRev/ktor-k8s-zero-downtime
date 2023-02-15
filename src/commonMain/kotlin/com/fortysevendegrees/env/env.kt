@@ -8,6 +8,8 @@ import arrow.core.raise.either
 import arrow.core.raise.ensureNotNull
 import arrow.core.raise.recover
 import arrow.core.raise.zipOrAccumulate
+import arrow.core.recover
+import arrow.typeclasses.Semigroup
 import com.fortysevendegrees.ServerError.ConfigurationError
 import kotlinx.cinterop.toKString
 import platform.posix.getenv
@@ -26,14 +28,14 @@ private fun <A : Any> Raise<String>.env(name: String, transform: Raise<String>.(
 }
 
 fun Raise<ConfigurationError>.env(): Env =
-  recover({
-    zipOrAccumulate(
-      { postgres() },
-      { http().bind() }) { postgres, http -> Env(postgres = postgres, http = http) }
-  }) { errors: NonEmptyList<String> ->
-    val message = errors.joinToString(prefix = "Environment failed to load:\n", separator = "\n")
-    raise(ConfigurationError(message))
-  }
+  Either.zipOrAccumulate(
+    either { postgres() },
+    http()
+  ) { postgres, http -> Env(postgres = postgres, http = http) }
+    .recover { errors: NonEmptyList<String> ->
+      val message = errors.joinToString(prefix = "Environment failed to load:\n", separator = "\n")
+      raise(ConfigurationError(message))
+    }.bind()
 
 private fun http(): EitherNel<String, Env.Http> =
   Either.zipOrAccumulate(
