@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: ktornative
-        image: vergauwensimon/ktor-native-server:20230215-220035
+        image: vergauwensimon/ktor-native-server:20230215-222243
         env:
           - name: HOST
             value: "0.0.0.0"

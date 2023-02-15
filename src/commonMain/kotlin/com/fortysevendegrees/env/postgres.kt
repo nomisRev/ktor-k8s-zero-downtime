@@ -19,7 +19,7 @@ suspend fun ResourceScope.postgres(config: Env.Postgres): Either<PostgresError, 
         password = config.password
       )
     }) { driver, _ -> driver.close() }
-  }) { state: IllegalStateException -> raise(PostgresError(state)) }
+  }) { illegal: IllegalArgumentException -> raise(PostgresError(illegal)) }
 
   NativePostgres(driver).also {
     NativePostgres.Schema.create(driver).await()
