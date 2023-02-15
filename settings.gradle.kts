@@ -1,2 +1,1 @@
-rootProject.name = "webinar-16-02-2023"
-
+rootProject.name = "ktor-native-server"
