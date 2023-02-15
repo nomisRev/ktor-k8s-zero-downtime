@@ -7,7 +7,7 @@
 }
 
 group = "com.fortysevendegrees"
-version = "0.1"
+version = "0.4"
 
 repositories {
   mavenCentral()
@@ -18,16 +18,6 @@ val buildDockerImage by tasks.registering(Exec::class) {
   commandLine("docker", "build", "--platform", "linux/amd64", "-t", "ktor-native-server:$version", ".")
 }
 
-sqldelight {
-  databases {
-    create("NativePostgres") {
-      packageName.set("com.fortysevendegrees.sqldelight")
-      dialect(libs.postgres.native.dialect.get())
-    }
-  }
-  linkSqlite.set(false)
-}
-
 kotlin {
   linuxX64 {
     binaries {
@@ -35,20 +25,12 @@ kotlin {
     }
   }
 
-//  macosArm64 {
-//    binaries {
-//      executable { entryPoint = "com.fortysevendegrees.main" }
-//    }
-//  }
-
   sourceSets {
     val commonMain by getting {
       dependencies {
         implementation(libs.arrow.fx)
         implementation(libs.suspendapp)
-        implementation(libs.suspendapp.ktor)
         implementation(libs.bundles.ktor.server)
-        implementation(libs.postgres.native.driver)
       }
     }
 
