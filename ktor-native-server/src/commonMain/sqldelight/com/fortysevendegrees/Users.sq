@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS users(
+    id BIGSERIAL PRIMARY KEY,
+    email VARCHAR(200) NOT NULL UNIQUE,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    bio VARCHAR(1000) NOT NULL DEFAULT '',
+    image VARCHAR(255) NOT NULL DEFAULT ''
+);
+
+insertAndGetId:
+INSERT INTO users(email, username, bio, image)
+VALUES (?, ?, ?, ?)
+RETURNING id;
+
+selectById:
+SELECT email, username, bio, image
+FROM users
+WHERE id = :id;

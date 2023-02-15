@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ktornative
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  progressDeadlineSeconds: 600
+  selector:
+    matchLabels:
+      app: ktornative
+  template:
+    metadata:
+      labels:
+        app: ktornative
+        version: c
+    spec:
+      containers:
+      - name: ktornative
+        image:  ktor-native-server:0.1
+        # readinessProbe:
+        #   initialDelaySeconds: 1
+        #   periodSeconds: 3
+        #   failureThreshold: 3
+        #   successThreshold: 1
+        #   httpGet:
+        #     path: /readiness
+        #     port: 8080
+        #     httpHeaders:
+        #     - name: x-k8s-sandbox
+        #       value: readiness
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080

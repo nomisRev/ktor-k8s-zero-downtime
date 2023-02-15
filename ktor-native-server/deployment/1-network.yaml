@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: ktornative
+  ports:
+  - port: 8080
+    targetPort: 8080
