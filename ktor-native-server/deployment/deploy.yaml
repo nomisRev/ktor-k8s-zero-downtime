@@ -21,18 +21,18 @@ spec:
     spec:
       containers:
       - name: ktornative
-        image:  ktor-native-server:0.1
-        # readinessProbe:
-        #   initialDelaySeconds: 1
-        #   periodSeconds: 3
-        #   failureThreshold: 3
-        #   successThreshold: 1
-        #   httpGet:
-        #     path: /readiness
-        #     port: 8080
-        #     httpHeaders:
-        #     - name: x-k8s-sandbox
-        #       value: readiness
+        image:  ktor-native-server:0.6
+        readinessProbe:
+          initialDelaySeconds: 1
+          periodSeconds: 3
+          failureThreshold: 3
+          successThreshold: 1
+          httpGet:
+            path: /readiness
+            port: 8080
+            httpHeaders:
+            - name: x-k8s-sandbox
+              value: readiness
         resources:
           limits:
             memory: "512Mi"
