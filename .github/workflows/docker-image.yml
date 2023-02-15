@@ -32,7 +32,8 @@ jobs:
     - name: Build Ktor Native
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: linkReleaseExecutableLinuxX64
+        arguments: linkReleaseExecutableLinuxX64 --full-stacktrace
+        jvm-args: -Xmx3g -XX:MaxMetaspaceSize=512m
               
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag vergauwensimon/ktor-native-server:$(date +%s)
