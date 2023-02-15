@@ -7,11 +7,12 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-Xmx5g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8"
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      GRADLE_OPTS: "-Xmx3g -XX:MaxMetaspaceSize=512m"
 
     steps:
     - name: Setup Homebrew
@@ -33,7 +34,6 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         arguments: linkReleaseExecutableLinuxX64 --full-stacktrace
-        jvm-args: -Xmx3g -XX:MaxMetaspaceSize=512m
               
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag vergauwensimon/ktor-native-server:$(date +%s)
