@@ -44,4 +44,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ktor-native-server:$(date +%s)
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ktor-native-server:`date +%s`
