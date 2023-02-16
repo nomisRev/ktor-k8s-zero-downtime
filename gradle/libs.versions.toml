@@ -8,7 +8,7 @@ detekt = "1.22.0"
 ktor = "2.2.3"
 sqldelight="2.0.0-alpha05"
 suspendapp="0.4.0"
-postgres-native="0.0.6"
+postgres-native="0.0.7"
 postgres-native-dialect="0.0.5"
 testcontainers = "1.17.6"
 

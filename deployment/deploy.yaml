@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ktornative
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  progressDeadlineSeconds: 600
+  selector:
+    matchLabels:
+      app: ktornative
+  template:
+    metadata:
+      labels:
+        app: ktornative
+        version: c
+    spec:
+      containers:
+      - name: ktornative
+        image: vergauwensimon/ktor-native-server:20230215-223202
+        env:
+          - name: HOST
+            value: "0.0.0.0"
+          - name: SERVER_PORT
+            value: "8080"
+          - name: POSTGRES_HOST
+            value: "10.107.64.239"
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: POSTGRES_USERNAME
+            value: "postgres"
+          - name: POSTGRES_PASSWORD
+            value: "postgres"
+          - name: POSTGRES_DB_NAME
+            value: "ktor-arrow-example-database"
+        readinessProbe:
+          initialDelaySeconds: 1
+          periodSeconds: 3
+          failureThreshold: 3
+          successThreshold: 1
+          httpGet:
+            path: /readiness
+            port: 8080
+            httpHeaders:
+            - name: x-k8s-sandbox
+              value: readiness
+        livenessProbe:
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 8080
+            httpHeaders:
+              - name: x-k8s-sandbox
+                value: health
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
