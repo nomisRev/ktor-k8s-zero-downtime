@@ -34,7 +34,12 @@ data class IncorrectParams(val message: String) : UserError
 data class UserAlreadyExists(val user: RegisterUser) : UserError
 data class UserNotFound(val id: Long) : UserError
 
-fun Routing.postUser(postgres: NativePostgres): Route =
+fun Routing.users(postgres: NativePostgres) {
+  postUser(postgres)
+  getUser(postgres)
+}
+
+private fun Routing.postUser(postgres: NativePostgres): Route =
   post("/user") {
     respond(Created) {
       val input = recover({ user().bind() }) { raise(IncorrectParams(it.joinToString())) }
@@ -45,7 +50,7 @@ fun Routing.postUser(postgres: NativePostgres): Route =
     }
   }
 
-fun Routing.getUser(postgres: NativePostgres): Route =
+private fun Routing.getUser(postgres: NativePostgres): Route =
   get("/user") {
     respond(OK) {
       val id = ensureNotNull(call.parameters["id"]?.toLongOrNull()) { IncorrectParams("Valid id is required") }

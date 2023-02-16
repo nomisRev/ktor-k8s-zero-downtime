@@ -21,14 +21,14 @@ spec:
     spec:
       containers:
       - name: ktornative
-        image: vergauwensimon/ktor-native-server:20230215-222243
+        image: vergauwensimon/ktor-native-server:20230215-223202
         env:
           - name: HOST
             value: "0.0.0.0"
           - name: SERVER_PORT
             value: "8080"
           - name: POSTGRES_HOST
-            value: "10.109.184.32"
+            value: "10.107.64.239"
           - name: POSTGRES_PORT
             value: "5432"
           - name: POSTGRES_USERNAME
@@ -48,6 +48,17 @@ spec:
             httpHeaders:
             - name: x-k8s-sandbox
               value: readiness
+        livenessProbe:
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 8080
+            httpHeaders:
+              - name: x-k8s-sandbox
+                value: health
         resources:
           limits:
             memory: "512Mi"

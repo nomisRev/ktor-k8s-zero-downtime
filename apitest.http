@@ -1,0 +1,38 @@
+### Post user
+POST http://0.0.0.0:8080/user?username=user11&email=user11@example.com
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 201, "Response status is not 201");
+});
+
+client.test("Response content-type is json", function() {
+  const type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+
+client.test("Response contains correct information", function() {
+  client.assert(response.body.id != null, "id value is null or undefined");
+  client.assert(response.body.username === "user11", "Unexpected username value");
+  client.assert(response.body.email === "user11@example.com", "Unexpected email value");
+});
+%}
+
+### Get user
+GET http://0.0.0.0:8080/user?id=16
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.test("Response content-type is json", function() {
+  const type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+});
+
+client.test("Response contains correct information", function() {
+  client.assert(response.body.username === "user11", "Unexpected username value");
+  client.assert(response.body.email === "user11@example.com", "Unexpected email value");
+});
+%}

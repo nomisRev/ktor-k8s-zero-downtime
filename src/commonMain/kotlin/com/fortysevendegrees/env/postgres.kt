@@ -20,7 +20,6 @@ suspend fun ResourceScope.postgres(config: Env.Postgres): Either<PostgresError, 
       )
     }) { driver, _ -> driver.close() }
   }) { illegal: IllegalArgumentException -> raise(PostgresError(illegal)) }
-
   NativePostgres(driver).also {
     NativePostgres.Schema.create(driver).await()
   }

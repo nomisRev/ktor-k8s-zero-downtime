@@ -46,7 +46,7 @@ metadata:
   labels:
     app: postgres
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 5432
   selector:
@@ -75,6 +75,8 @@ spec:
           env:
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
+            - name: POSTGRES_HOST
+              value: loadbalancer
           envFrom:
             - configMapRef:
                 name: postgres-config
