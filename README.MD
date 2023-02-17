@@ -67,8 +67,9 @@ replicaset.apps/postgres-78d65bf67      1         1         1       33m
 See the webinar for more details.
 
 ## Step 1
-=> Regular embeddedServer (ktor-native-server:0.1)
-=> Rolling deployment to (ktor-native-server:0.2)
+
+We start with a simple Ktor server, which we will deploy to Kubernetes.
+We use a variation of [the Hello World example for Ktor with Kotlin/Native](https://github.com/ktorio/ktor-documentation/tree/2.2.3/codeSnippets/snippets/embedded-server-native ), and perform a rolling update between two versions of the same code, code used in this step can be found in the `step-1` branch.
 
 ```text
 Transactions:		        2521 hits
@@ -77,8 +78,8 @@ Elapsed time:		       12.04 secs
 ```
 
 ## Step 2
-=> install embeddedServer (ktor-native-server:0.3)
-=> Rolling deployment to (ktor-native-server:0.4)
+We update the original code to use the `SuspendApp` library, and `Resource` from Arrow to close the embedded server gracefully.
+Then we perform the same test again.
 
 ```text
 Transactions:		        1620 hits
@@ -87,8 +88,15 @@ Elapsed time:		       22.93 secs
 ```
 
 ## Step 3
-=> SuspendApp Ktor server (ktor-native-server:0.5)
-=> Rolling deployment to (ktor-native-server:0.6)
+We use update the code to use SuspendApp Ktor integration `server` instead of `embeddedServer`,
+this introduces a small `delay` for the network (LoadBalancer/Ingress) to remove our pods from the IP tables.
+
+This code can be found in the `step-3` branch.
+
+Additional references on why this is needed:
+ - [AWS Load Balancer](https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/1719#issuecomment-1122271908)
+ - [Kubernetes' dirty endpoint secret and Ingress](https://philpearl.github.io/post/k8s_ingress/)
+ - [Graceful shutdown and zero downtime deployments in Kubernetes](https://learnk8s.io/graceful-shutdown)
 
 ```text
 Transactions:		       21618 hits
@@ -96,10 +104,17 @@ Availability:		      100.00 %
 Elapsed time:		       38.04 secs
 ```
 
-## Step 4 (branch: step-4 => vergauwensimon/ktor-native-server:20230215-222243)
-=> Add env w/ Postgres
-=> Show _accumulated error_ of missing `Env`.
+## Step 5
 
-## Step 5 (step-5 => vergauwensimon/ktor-native-server:20230215-222243)
-=> Setup postgres & show Kotlin Native hanging in Docker upon exception
-=> Fix by turning Postgres error into _typed error_.
+- Image on DockerHub: vergauwensimon/ktor-native-server:20230215-222243
+
+We add `Http` & `Postgres` configuration using Kotlin's `getenv` and Arrow `Either`/`Raise` to accumulate errors.
+If you run `deploy.yaml` with the `env` section commented out,
+you will see that the `ktor-native-server` will fail to start showing all the environment variables as missing.
+
+## Step 5
+
+We uncomment `env` variables, and set up `NativePostgres` capturing the exception and turning it into a _typed error_, or it will make Kotlin Native hang in docker.
+Using the `NativePostgres` we can now wire our routes to the database, and our final result is a working server.
+
+This code can be found on the `main` branch.
