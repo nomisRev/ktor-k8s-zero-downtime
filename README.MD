@@ -97,6 +97,7 @@ Additional references on why this is needed:
  - [AWS Load Balancer](https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/1719#issuecomment-1122271908)
  - [Kubernetes' dirty endpoint secret and Ingress](https://philpearl.github.io/post/k8s_ingress/)
  - [Graceful shutdown and zero downtime deployments in Kubernetes](https://learnk8s.io/graceful-shutdown)
+ - [The Gotchas of Zero-Downtime Traffic /w Kubernetes - Leigh Capili, Weaveworks](https://www.youtube.com/watch?v=0o5C12kzEDI)
 
 ```text
 Transactions:		       21618 hits
