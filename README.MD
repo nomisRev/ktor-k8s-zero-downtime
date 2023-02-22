@@ -98,6 +98,7 @@ Additional references on why this is needed:
  - [Kubernetes' dirty endpoint secret and Ingress](https://philpearl.github.io/post/k8s_ingress/)
  - [Graceful shutdown and zero downtime deployments in Kubernetes](https://learnk8s.io/graceful-shutdown)
  - [The Gotchas of Zero-Downtime Traffic /w Kubernetes - Leigh Capili, Weaveworks](https://www.youtube.com/watch?v=0o5C12kzEDI)
+ - [Spring Boot - Investigate shutdown delay option](https://github.com/spring-projects/spring-boot/issues/20995)
 
 ```text
 Transactions:		       21618 hits
